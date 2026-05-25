@@ -515,7 +515,7 @@
       return;
     }
     
-    // send webhook with status = 'revision_requested' (or 'revision_required')
+    // send webhook with status = 'revision_requested' (or 'revision requested')
     // requirement: send status, task id, notes if present -> notes is present here.
     // We'll send status = 'revision_requested' (clear)
     sendWebhookPayload('revision_requested', noteValue);
