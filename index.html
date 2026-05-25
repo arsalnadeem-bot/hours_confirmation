@@ -515,10 +515,10 @@
       return;
     }
     
-    // send webhook with status = 'revision_requested' (or 'revision requested')
+    // send webhook with status = 'revision required' (or 'revision requested')
     // requirement: send status, task id, notes if present -> notes is present here.
-    // We'll send status = 'revision_requested' (clear)
-    sendWebhookPayload('revision_requested', noteValue);
+    // We'll send status = 'revision required' (clear)
+    sendWebhookPayload('revision required', noteValue);
     
     // After sending, we show confirmation screen (state-revision-done)
     // But we also want to fully replace the revision area content to show success badge.
