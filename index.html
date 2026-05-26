@@ -359,15 +359,38 @@
 <script>
   var WEBHOOK = 'https://hook.us2.make.com/dgrfnso4s2exfq8z31ie6qch7n1y3p01';
 
-  var params       = new URLSearchParams(window.location.search);
-  var employeeName = params.get('name')   || 'Employee';
-  var days         = params.get('days')   || '14';
-  var taskId       = params.get('task')   || '';
-  var period       = params.get('period') || 'Payroll Period';
+ var rawQuery = window.location.search;
 
-  document.getElementById('employee-name').textContent = employeeName;
-  document.getElementById('period-range').textContent  = period;
-  document.getElementById('meta').setAttribute('data-task-id', taskId);
+/*
+  Fix unencoded Make.com URL parameters
+*/
+rawQuery = rawQuery.replace(/\+/g, '%20');
+
+var params = new URLSearchParams(rawQuery);
+
+function safeParam(key, fallback) {
+
+  var value = params.get(key);
+
+  if (!value || value === 'null') {
+    return fallback;
+  }
+
+  try {
+    return decodeURIComponent(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+var employeeName = safeParam('name', 'Employee');
+var days         = safeParam('days', '14');
+var taskId       = safeParam('task', '');
+var period       = safeParam('period', 'Payroll Period');
+
+document.getElementById('employee-name').textContent = employeeName;
+document.getElementById('period-range').innerText    = period;
+document.getElementById('meta').setAttribute('data-task-id', taskId);
 
   /* Count-up animation for the days number */
   var target = parseInt(days, 10) || 0;
